@@ -48,9 +48,9 @@ public class ResMgr : Singleton<ResMgr>
     /// 在异步加载方法中被开启
     /// </summary>
     /// <param name="name">资源名</param>
-    /// <param name="AfterLoadCallback">回调函数 异步加载完成时 要对资源进行的操作 参数就是资源类型</param>
+    /// <param name="AfterLoadCallback">回调函数 异步加载完成时 要对资源进行的操作 参数就是资源</param>
     /// <typeparam name="T">资源的类型</typeparam>
-    /// <returns>yield return不是真返回 利用doSomething回调函数进行返回值操作</returns>
+    /// <returns>yield return不是真返回 利用AfterLoadCallback回调函数进行返回值操作</returns>
     private IEnumerator LoadAsyncCoroutine<T>(string name, UnityAction<T> AfterLoadCallback) where T : Object
     {
         ResourceRequest r = Resources.LoadAsync<T>(name);
