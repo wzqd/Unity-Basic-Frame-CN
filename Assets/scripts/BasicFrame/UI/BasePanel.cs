@@ -24,17 +24,19 @@ public class BasePanel : MonoBehaviour
     private Dictionary<string, List<UIBehaviour>> UIComponentsDict = new Dictionary<string, List<UIBehaviour>>();
     
     /// <summary>
-    /// 生命周期函数
+    /// 虚函数 生命周期函数
     /// </summary>
-    private void Awake()
+    protected void Awake()
     {
+        //因为是虚函数，注意重写时要保留base
         //开始时向字典中加入
         FindChildrenComponent<Button>();
         FindChildrenComponent<Toggle>();
         FindChildrenComponent<Slider>();
-        FindChildrenComponent<Image>();
         FindChildrenComponent<Text>();
+        FindChildrenComponent<Image>();
         FindChildrenComponent<ScrollRect>();
+        FindChildrenComponent<InputField>();
     }
 
     /// <summary>
@@ -55,8 +57,48 @@ public class BasePanel : MonoBehaviour
             {
                 UIComponentsDict.Add(componentName, new List<UIBehaviour>() {componentInChildren}); //新建一个list
             }
+            
+            //直接监听事件
+            if (componentInChildren is Button) //按钮的监听
+            {
+                (componentInChildren as Button).onClick.AddListener((() =>
+                {
+                    OnClick(componentName); //加入虚函数的监听
+                }));
+            }
+            else if(componentInChildren is Toggle) //勾选框的监听
+            {
+                (componentInChildren as Toggle).onValueChanged.AddListener(((boolValue) =>
+                {
+                    OnValueChange(componentName,boolValue); //加入虚函数的监听
+                }));
+            }
+            //-------------------如果还需要监听别的类型的事件，可以继续添加监听以及虚函数----------------------------
         }
     }
+
+    /// <summary>
+    /// 虚函数 点击事件的监听
+    /// </summary>
+    /// <param name="buttonName">按钮名</param>
+    protected virtual void OnClick(string buttonName)
+    {
+        //面板重写该函数，自动添加监听
+        //在函数中写switch case来进入不同按钮的逻辑
+    }
+
+    /// <summary>
+    /// 虚函数 勾选事件的监听
+    /// </summary>
+    /// <param name="toggleName">勾选框名</param>
+    /// <param name="boolValue">传入的布尔值</param>
+    protected virtual void OnValueChange(string toggleName, bool boolValue)
+    {
+        //在函数中写switch case来进入不同勾选框的逻辑
+    }
+    
+    
+    
     
     /// <summary>
     /// 得到对应对象名字的上对应类型的组件
@@ -77,6 +119,10 @@ public class BasePanel : MonoBehaviour
         return null;
     }
 
+    
+    
+    
+    
     /// <summary>
     /// 虚方法 显示面板
     /// </summary>

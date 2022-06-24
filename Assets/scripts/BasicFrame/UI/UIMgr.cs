@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,15 +25,23 @@ public class UIMgr : Singleton<UIMgr>
     /// </summary>
     private Dictionary<string, BasePanel> panelDict = new Dictionary<string, BasePanel>();
 
-    private Transform canvas; //场景中唯一的canvas
+    /// <summary>
+    ///场景中唯一的canvas
+    /// </summary>
+    public RectTransform canvas;
+    
     private Transform bot; //底层面板
     private Transform mid; //中层面板
     private Transform top; //上层面板
     
+    /// <summary>
+    /// 构造函数
+    /// 载入Canvas和EventSystem
+    /// </summary>
     public UIMgr()
     {
         GameObject obj = ResMgr.Instance.Load<GameObject>("UI/Canvas"); //动态载入面板预设体
-        canvas = obj.transform;
+        canvas = obj.transform as RectTransform;
         GameObject.DontDestroyOnLoad(obj); //使其过场景不移除
 
         //找到三个层级
@@ -43,6 +52,29 @@ public class UIMgr : Singleton<UIMgr>
         obj = ResMgr.Instance.Load<GameObject>("UI/EventSystem"); //动态载入EventSystem
         GameObject.DontDestroyOnLoad(obj); //使其过场景不移除
     }
+
+    /// <summary>
+    /// 得到某一层级
+    /// </summary>
+    /// <param name="panelLayer">层级面板名</param>
+    /// <returns></returns>
+    public Transform GetPanelLayer(E_PanelLayer panelLayer)
+    {
+        switch (panelLayer)
+        {
+            case E_PanelLayer.Bot:
+                return bot;
+                break;
+            case E_PanelLayer.Mid:
+                return mid;
+                break;
+            case E_PanelLayer.Top:
+                return top;
+                break;
+        }
+        return null;
+    }
+    
     
     /// <summary>
     /// 显示面板
@@ -59,7 +91,7 @@ public class UIMgr : Singleton<UIMgr>
             
             if (afterShown != null)
                 afterShown(panelDict[panelName] as T); //如果传入了回调函数 则执行显示面板后的逻辑
-            return; //返回退出函数
+            return; //返回退出函数 避免重复逻辑
         }
         
         
@@ -111,4 +143,34 @@ public class UIMgr : Singleton<UIMgr>
             panelDict.Remove(panelName); //将其从字典中移除
         }
     }
+
+    /// <summary>
+    ///得到正在显示的面板
+    /// </summary>
+    /// <param name="panelName">面板名</param>
+    /// <typeparam name="T">面板类型</typeparam>
+    public T GetPanel<T>(string panelName) where T: BasePanel
+    {
+        if (panelDict.ContainsKey(panelName))
+            return panelDict[panelName] as T;
+        return null;
+    }
+
+    
+    /// <summary>
+    /// 给UI组件添加自定义事件监听
+    /// </summary>
+    /// <param name="component">组件，用GetControl得</param>
+    /// <param name="triggerType">事件类型</param>
+    /// <param name="eventFunc">事件的响应函数</param>
+    public static void AddCustomEventListener(UIBehaviour component, EventTriggerType triggerType, UnityAction<BaseEventData> eventFunc)
+    {
+        EventTrigger trigger = component.GetComponent<EventTrigger>();
+        if (trigger == null)
+            trigger = component.gameObject.AddComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = triggerType;
+        entry.callback.AddListener(eventFunc);
+    }
+    
 }
