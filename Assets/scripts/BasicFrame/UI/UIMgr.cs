@@ -64,13 +64,10 @@ public class UIMgr : Singleton<UIMgr>
         {
             case E_PanelLayer.Bot:
                 return bot;
-                break;
             case E_PanelLayer.Mid:
                 return mid;
-                break;
             case E_PanelLayer.Top:
                 return top;
-                break;
         }
         return null;
     }
