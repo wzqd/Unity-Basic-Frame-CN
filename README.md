@@ -6,7 +6,7 @@ Manager scripts for convenient game development (中文注释 Chinese comments)
 现在完成了的模块：    
   
 单例模式基类  
-MonoBehavior基类 --> 继承monobehavior的单例模式基类  
+MonoBehavior模块 ---> 继承monobehavior的单例模式基类  
 事件管理模块  
 资源加载模块  
 缓存池模块  
@@ -14,9 +14,13 @@ MonoBehavior基类 --> 继承monobehavior的单例模式基类
 计时模块  
 数据持久化模块 ---> xml数据管理模块  
 UI管理模块
+有限状态机模块
 
 
 
+2022-6-25
+---------
+完成了有限状态机模块
 
 2022-6-24
 ---------
