@@ -13,7 +13,7 @@ MonoBehavior模块 ---> 继承monobehavior的单例模式基类
 输入模块  
 计时模块  
 数据持久化模块 ---> xml数据管理模块  
-UI管理模块
+UI管理模块  
 有限状态机模块
 
 
