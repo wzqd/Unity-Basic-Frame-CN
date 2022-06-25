@@ -78,3 +78,7 @@ crashlytics-build.properties
 Assets/scripts/Test/CoroutineTest.cs.meta
 Assets/scripts/Test.meta
 Assets/scripts/Test/CoroutineTest.cs
+Assets/scripts/Test/FSMTest.cs
+Assets/scripts/Test/FSMTest.cs.meta
+Assets/scripts/Test/TestFSM.cs
+Assets/scripts/Test/TestFSM.cs.meta
