@@ -8,6 +8,7 @@ using UnityEngine.Events;
 
 //其中方法为开始对一个方法的计时 并在计时完成时进行操作
 //另一个为直接计时 计时完成时进行操作
+//************不要在update函数里开协程************
 #endregion
 public class TimeMgr : Singleton<TimeMgr>
 {

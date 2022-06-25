@@ -75,3 +75,6 @@ crashlytics-build.properties
 .idea/.idea.Unity Basic Frame/.idea/indexLayout.xml
 .idea/.idea.Unity Basic Frame/.idea/misc.xml
 .idea/.idea.Unity Basic Frame/.idea/vcs.xml
+Assets/scripts/Test/CoroutineTest.cs.meta
+Assets/scripts/Test.meta
+Assets/scripts/Test/CoroutineTest.cs

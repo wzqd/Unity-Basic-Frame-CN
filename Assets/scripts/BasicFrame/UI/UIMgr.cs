@@ -15,7 +15,13 @@ public enum E_PanelLayer
     Top
 }
 
+#region UI管理器
+//UI管理器用于管理继承了BasePanel的所有面板
+//自动加载预设好的Canvas和EventSystem，其中画布Canvas分成了上中下三层
 
+//方法主要有显示面板和隐藏面板，显示面板时要记得设置上中下的层级，还可以添加加载后的函数
+//次要的方法有得到正在显示的面板，得到层级panel的对象，以及添加自定义监听
+#endregion
 public class UIMgr : Singleton<UIMgr>
 {
     /// <summary>
@@ -26,7 +32,7 @@ public class UIMgr : Singleton<UIMgr>
     private Dictionary<string, BasePanel> panelDict = new Dictionary<string, BasePanel>();
 
     /// <summary>
-    ///场景中唯一的canvas
+    ///公共 场景中唯一的canvas
     /// </summary>
     public RectTransform canvas;
     
