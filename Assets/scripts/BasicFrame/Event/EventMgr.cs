@@ -48,6 +48,7 @@ public class EventInfo : IEventInfo
 //其中派发事件可以传一个任意类型参数info备用 若有多个要传可传数组
 //也有无参重载，不用传info参数
 //监听事件也有监听有参和监听无参两种重载
+//********事件名规范，帕斯卡命名法，首字母全大写********
 #endregion
 public class EventMgr : Singleton<EventMgr>
 {
