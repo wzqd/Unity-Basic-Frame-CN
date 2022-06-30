@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 #region 状态基类
 //有限状态机中的状态基类
 
@@ -9,9 +10,9 @@
 #endregion
 public abstract class BaseState
 {
-    public Enum StateType;
+    public E_States StateType;
     private BaseFSM baseFSM;
-    public virtual void Init(BaseFSM baseFsm, Enum stateType)
+    public virtual void Init(BaseFSM baseFsm, E_States stateType)
     {
         this.baseFSM = baseFsm; //归属的状态机
         this.StateType = stateType; //初始的状态
