@@ -5,20 +5,17 @@ using UnityEngine;
 
 
 
-#region 状态机基类
-//有限状态机的状态机基类
+#region 状态机
+//有管理所有状态的的状态机
 
 //其中主要的方法是修改状态，需要的话可以设置初始状态
 //Update函数可以覆写，在其中加入何时修改状态的逻辑
 //使用时需要准备一个枚举，********枚举选项名必须和状态名相同，因为要用反射创建状态对象********
-//********一定要设置一个初始枚举值********
-
-//可以加入对象池系统
 #endregion
-public abstract class BaseFSM: MonoBehaviour
+public abstract class FSM: SingletonMono<FSM>
 {
-    private List<BaseState> stateList = new List<BaseState>();//后续可以用对象池替换（小体量状态不是非常需要）
-    public E_States CurrentStateType { get; set; } = E_States.Default;//枚举类型,
+    private Dictionary<int,BaseState> stateDict = new Dictionary<int, BaseState>();
+    public E_States CurrentStateType { get; set; } = E_States.Default;//枚举类型
     private BaseState currentState;
 
 
@@ -46,7 +43,7 @@ public abstract class BaseFSM: MonoBehaviour
             currentState.Exit(); //执行退出当前状态的方法
 
         currentState = GetStateObj(newState); //得到新的状态
-        CurrentStateType = currentState.StateType;
+        CurrentStateType = currentState.StateName;
         currentState.Enter(); //执行新状态的进入方法
         
 
@@ -59,15 +56,22 @@ public abstract class BaseFSM: MonoBehaviour
     /// <returns>返回状态，供切换状态使用</returns>
     private BaseState GetStateObj(E_States stateType) //此处有装拆箱问题，以后解决
     {
-        foreach (var stateObj in stateList) //如果状态已经存在列表内，直接返回
-        {
-            if (stateObj.StateType == stateType) return stateObj;
-        }
+        int key = (int) stateType;
+        if (stateDict.ContainsKey(key)) 
+            return stateDict[key]; //如果状态已经存在字典内，直接返回
 
         //*********枚举中的类型名要和状态类名一直，否则会创建空物体*********
         BaseState state = Activator.CreateInstance(Type.GetType(stateType.ToString())!) as BaseState; //若不存在，创建一个
         state.Init(this,stateType); //将其初始化为传入的枚举类型
-        stateList.Add(state); //加入列表
+        stateDict.Add((int)stateType, state); //加入列表
         return state;
+    }
+
+    /// <summary>
+    /// 清空状态字典
+    /// </summary>
+    public void ClearAllStates()
+    {
+        stateDict.Clear();
     }
 }

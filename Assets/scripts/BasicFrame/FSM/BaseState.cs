@@ -10,12 +10,12 @@
 #endregion
 public abstract class BaseState
 {
-    public E_States StateType;
-    private BaseFSM baseFSM;
-    public virtual void Init(BaseFSM baseFsm, E_States stateType)
+    public E_States StateName;
+    private FSM _fsm;
+    public virtual void Init(FSM fsm, E_States stateType)
     {
-        this.baseFSM = baseFsm; //归属的状态机
-        this.StateType = stateType; //初始的状态
+        this._fsm = fsm; //归属的状态机
+        this.StateName = stateType; //初始的状态
     }
 
     /// <summary>
