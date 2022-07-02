@@ -5,14 +5,14 @@ using UnityEngine;
 
 
 
-#region 状态机
-//有管理所有状态的的状态机
+#region 状态机基类
+//有限状态机的的状态机
 
 //其中主要的方法是修改状态，需要的话可以设置初始状态
 //Update函数可以覆写，在其中加入何时修改状态的逻辑
 //使用时需要准备一个枚举，********枚举选项名必须和状态名相同，因为要用反射创建状态对象********
 #endregion
-public abstract class FSM: SingletonMono<FSM>
+public abstract class FSM: MonoBehaviour
 {
     private Dictionary<int,BaseState> stateDict = new Dictionary<int, BaseState>();
     public E_States CurrentStateType { get; set; } = E_States.Default;//枚举类型
